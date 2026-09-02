@@ -1,5 +1,6 @@
 package com.samuel.lifecyclev6
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -25,21 +26,32 @@ class MainActivity : AppCompatActivity() {
             val username = usernameInput.text.toString().trim();
             val password = passwordInput.text.toString().trim();
 
-            // TODO: Logging for dev purposes, implement real functionality instead.
+            // TODO: REMOVE! Logging for dev purposes
             Log.i("SAM", "username: $username");
             Log.i("SAM", "password: $password");
 
+            var numbOfErrors = 0;
+
             if (username.isEmpty()) {
                 usernameInput.error = "Username cannot be empty"
+                numbOfErrors++
             }
 
             if (password.isEmpty()) {
                 passwordInput.error = "Password cannot be empty"
+                numbOfErrors++
             }
 
             // TODO: Add Database support for user data
-            // TODO: Store user credentials to sharedPreferences (for now, switch to a more secure version later) and send user to next Activity
 
+            // Sending user to Activity2 if no errors occurred
+            if (numbOfErrors == 0) {
+                // TODO: Store user credentials to sharedPreferences instead? (for now, switch to a more secure version later)
+                val intent = Intent(this, MainActivity2::class.java);
+                intent.putExtra("username", username);
+                intent.putExtra("password", password);
+                startActivity(intent);
+            }
 
         }
 
