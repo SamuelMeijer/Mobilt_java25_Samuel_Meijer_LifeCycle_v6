@@ -28,6 +28,19 @@ class MainActivity : AppCompatActivity() {
             // TODO: Logging for dev purposes, implement real functionality instead.
             Log.i("SAM", "username: $username");
             Log.i("SAM", "password: $password");
+
+            if (username.isEmpty()) {
+                usernameInput.error = "Username cannot be empty"
+            }
+
+            if (password.isEmpty()) {
+                passwordInput.error = "Password cannot be empty"
+            }
+
+            // TODO: Add Database support for user data
+            // TODO: Store user credentials to sharedPreferences (for now, switch to a more secure version later) and send user to next Activity
+
+
         }
 
 
