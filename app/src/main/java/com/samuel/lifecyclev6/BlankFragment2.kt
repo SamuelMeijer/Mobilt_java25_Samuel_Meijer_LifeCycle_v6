@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +62,13 @@ class BlankFragment2 : Fragment(), SensorEventListener {
         sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         acc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
+
+        // Informing user that Step Counter is not available
+        Toast.makeText(
+            requireContext(),
+            "Step Counter is not available on this device, using Accelerometer instead",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun onResume() {
@@ -92,8 +100,8 @@ class BlankFragment2 : Fragment(), SensorEventListener {
             val zValue = event.values[2]
 
             textX?.text = "X: $xValue"
-            textY?.text = "X: $yValue"
-            textZ?.text = "X: $zValue"
+            textY?.text = "Y: $yValue"
+            textZ?.text = "Z: $zValue"
         }
     }
 
