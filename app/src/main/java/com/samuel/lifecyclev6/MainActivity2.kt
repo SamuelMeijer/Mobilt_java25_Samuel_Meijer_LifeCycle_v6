@@ -25,16 +25,6 @@ class MainActivity2 : AppCompatActivity() {
         val titleText = findViewById<TextView>(R.id.titleText);
         titleText.text = "Welcome $username";
 
-        //TODO: Add components for user input
-        /*
-        Weight: TextInputEditText
-        Height: TextInputEditText => SHOW BMI
-        Date of Birth: DatePickerDialog
-        Wake up Time: TimePickerDialog
-        Favorite Color: Spinner?
-        Right or Left handed: Switch/Toggle/Radiobuttons
-         */
-
 
         // NAVIGATION -- TODO: Add icons for menu-items
         val navBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView);
