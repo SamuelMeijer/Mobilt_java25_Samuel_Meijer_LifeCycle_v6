@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +36,43 @@ class MainActivity2 : AppCompatActivity() {
          */
 
 
+        // NAVIGATION -- TODO: Add icons for menu-items
+        val navBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView);
+        navBar.setOnItemSelectedListener { item ->
+            if (item.itemId == R.id.menu_form_fragment) {
+                val formFragment = BlankFragment()
+                showFragment(formFragment)
+                return@setOnItemSelectedListener true
+            }
+
+            if (item.itemId == R.id.menu_sensor_fragment) {
+                val sensorFragment = BlankFragment2()
+                showFragment(sensorFragment)
+                return@setOnItemSelectedListener true
+            }
+
+            return@setOnItemSelectedListener false
+        }
+
+        val firstShownFragment = BlankFragment()
+        showFragment(firstShownFragment)
+        navBar.selectedItemId = R.id.menu_form_fragment
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    private fun showFragment(fragmentToShow: Fragment) {
+        val fm = supportFragmentManager
+        val fmTransaction = fm.beginTransaction()
+        fmTransaction.replace(
+            R.id.fragmentContainerView,
+            fragmentToShow
+        )
+        fmTransaction.commit()
     }
 }
