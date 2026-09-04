@@ -10,6 +10,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.util.Locale
+import java.util.Locale.getDefault
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,17 +45,23 @@ class MainActivity : AppCompatActivity() {
                 numbOfErrors++
             }
 
-            // TODO: Add Database support for user data
+            // TODO: Add pre def. values and validate user before proceeding (both G and VG)
+            // Gör lowercase check för username + pw och ge felmeddelande om det inte stämmer
+            if (username.lowercase(getDefault()) != "admin" && password.lowercase(getDefault()) != "admin") {
+                loginBtn.error = "No such username or password exists"
+                // TODO: Add Database support for user data (VG)
+            } else {
+                // Sending user to Activity2 if no errors occurred
+                //  TODO: Remove if numberror == 0 since check is already made earlier?
+                if (numbOfErrors == 0) {
+                    // TODO: Store user credentials to sharedPreferences instead? (for now, switch to a more secure version later)
+                    val intent = Intent(this, MainActivity2::class.java);
+                    intent.putExtra("username", username);
+                    intent.putExtra("password", password);
+                    startActivity(intent);
+                }
 
-            // Sending user to Activity2 if no errors occurred
-            if (numbOfErrors == 0) {
-                // TODO: Store user credentials to sharedPreferences instead? (for now, switch to a more secure version later)
-                val intent = Intent(this, MainActivity2::class.java);
-                intent.putExtra("username", username);
-                intent.putExtra("password", password);
-                startActivity(intent);
             }
-
         }
 
 

@@ -89,6 +89,22 @@
                     android:text="Female" />
             </RadioGroup>
 
+            <TextView
+                android:id="@+id/rightHandedText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Are you right handed?" />
+
+            <ToggleButton
+                android:id="@+id/rightHandedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00BCD4"
+                android:text="ToggleButton"
+                android:textOff="NO"
+                android:textOn="YES"
+                android:textSize="16sp" />
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

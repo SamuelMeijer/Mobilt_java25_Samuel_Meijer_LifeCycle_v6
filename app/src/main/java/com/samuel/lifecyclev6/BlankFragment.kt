@@ -1,6 +1,7 @@
 package com.samuel.lifecyclev6
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.ToggleButton
 import com.google.android.material.textfield.TextInputEditText
 
 // TODO: Rename parameter arguments, choose names that match
@@ -60,10 +62,11 @@ class BlankFragment : Fragment() {
         Height: TextInputEditText
         => SHOW BMI
 
+        Gender: RadioGroup
+
         TODO:
         Date of Birth: DatePickerDialog
-        Gender: RadioGroup
-        Right handed: Switch
+        Right handed: Toggle
         Email: Email
 
          */
@@ -119,6 +122,20 @@ class BlankFragment : Fragment() {
 
         // TODO: Check for null-value before storing data with save button
         // GENDER END
+
+        // RIGHT HANDED START
+        val rightHandedBtn = view.findViewById<ToggleButton>(R.id.rightHandedButton)
+        rightHandedBtn.setOnCheckedChangeListener { button, bool ->
+            if (bool) {
+                // TODO: Change bg-color
+                rightHandedBtn.setBackgroundColor(Color.GREEN)
+            } else {
+                // TODO: Change bg-color
+                rightHandedBtn.setBackgroundColor(Color.RED)
+            }
+            // TODO: STORE DATA
+        }
+        // RIGHT HANDED END
     }
 
     private fun calculateBmi() {
