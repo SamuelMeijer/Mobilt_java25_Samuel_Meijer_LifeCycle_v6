@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
 
@@ -60,11 +62,14 @@ class BlankFragment : Fragment() {
 
         TODO:
         Date of Birth: DatePickerDialog
-        Wake up Time: TimePickerDialog
-        Favorite Color: Spinner?
-        Right or Left handed: Switch/Toggle/Radiobuttons
+        Gender: RadioGroup
+        Right handed: Switch
+        Email: Email
+
          */
 
+
+        // BMI START
         heightText = view.findViewById<TextInputEditText>(R.id.heightInputText)
         weightText = view.findViewById<TextInputEditText>(R.id.weightInputText)
         bmiText = view.findViewById<TextView>(R.id.bmiText)
@@ -72,7 +77,7 @@ class BlankFragment : Fragment() {
         // TextWatcher to calculate BMI when input has been given
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                // TODO("Not yet implemented")
+                // TODO: Not used in this project
             }
 
             override fun beforeTextChanged(
@@ -81,7 +86,7 @@ class BlankFragment : Fragment() {
                 count: Int,
                 after: Int
             ) {
-                // TODO("Not yet implemented")
+                // TODO: Not used in this project
             }
 
             override fun onTextChanged(
@@ -96,6 +101,24 @@ class BlankFragment : Fragment() {
 
         heightText.addTextChangedListener(textWatcher)
         weightText.addTextChangedListener(textWatcher)
+        // TODO: STORE DATA
+        // BMI END
+
+        // DATE OF BIRTH START
+
+        // TODO: STORE DATA
+        // DATE OF BIRTH END
+
+        // GENDER START
+        val genderGroup = view.findViewById<RadioGroup>(R.id.genderGroup)
+        genderGroup.setOnCheckedChangeListener { genderGroup, checkedId ->
+            var selectedGender = view.findViewById<RadioButton>(checkedId).text
+            Log.i("GENDER", "text: $selectedGender")
+            // TODO: STORE DATA
+        }
+
+        // TODO: Check for null-value before storing data with save button
+        // GENDER END
     }
 
     private fun calculateBmi() {
