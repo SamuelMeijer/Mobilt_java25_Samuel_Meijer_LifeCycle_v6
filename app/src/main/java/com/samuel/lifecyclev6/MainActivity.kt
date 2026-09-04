@@ -45,11 +45,10 @@ class MainActivity : AppCompatActivity() {
                 numbOfErrors++
             }
 
-            // TODO: Add pre def. values and validate user before proceeding (both G and VG)
-            // Gör lowercase check för username + pw och ge felmeddelande om det inte stämmer
+            // TODO: Add pre def. values (G) and validate user before proceeding (both G and VG)
             if (username.lowercase(getDefault()) != "admin" && password.lowercase(getDefault()) != "admin") {
                 loginBtn.error = "No such username or password exists"
-                // TODO: Add Database support for user data (VG)
+                // TODO: Add Database support for user data (VG) and check for that instead
             } else {
                 // Sending user to Activity2 if no errors occurred
                 //  TODO: Remove if numberror == 0 since check is already made earlier?
@@ -60,7 +59,6 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtra("password", password);
                     startActivity(intent);
                 }
-
             }
         }
 

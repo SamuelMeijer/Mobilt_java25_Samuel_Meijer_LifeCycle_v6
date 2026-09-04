@@ -64,9 +64,11 @@ class BlankFragment : Fragment() {
 
         Gender: RadioGroup
 
+        WIP:
+        Right handed: Toggle
+
         TODO:
         Date of Birth: DatePickerDialog
-        Right handed: Toggle
         Email: Email
 
          */
@@ -116,22 +118,27 @@ class BlankFragment : Fragment() {
         val genderGroup = view.findViewById<RadioGroup>(R.id.genderGroup)
         genderGroup.setOnCheckedChangeListener { genderGroup, checkedId ->
             var selectedGender = view.findViewById<RadioButton>(checkedId).text
+            // TODO: STORE DATA // REMOVE LOG
             Log.i("GENDER", "text: $selectedGender")
-            // TODO: STORE DATA
         }
-
         // TODO: Check for null-value before storing data with save button
         // GENDER END
 
         // RIGHT HANDED START
         val rightHandedBtn = view.findViewById<ToggleButton>(R.id.rightHandedButton)
+        // TODO: Add default value from storage
+
+        if (rightHandedBtn.isChecked) {
+            rightHandedBtn.setBackgroundColor(Color.argb(100,76,175,80))
+        } else {
+            rightHandedBtn.setBackgroundColor(Color.argb(100,244,67,54))
+        }
+
         rightHandedBtn.setOnCheckedChangeListener { button, bool ->
             if (bool) {
-                // TODO: Change bg-color
-                rightHandedBtn.setBackgroundColor(Color.GREEN)
+                button.setBackgroundColor(Color.argb(100,76,175,80))
             } else {
-                // TODO: Change bg-color
-                rightHandedBtn.setBackgroundColor(Color.RED)
+                button.setBackgroundColor(Color.argb(100,244,67,54))
             }
             // TODO: STORE DATA
         }
