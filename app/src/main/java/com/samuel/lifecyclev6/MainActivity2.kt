@@ -63,6 +63,8 @@ class MainActivity2 : AppCompatActivity() {
             R.id.fragmentContainerView,
             fragmentToShow
         )
+        fmTransaction.setReorderingAllowed(true)
+        fmTransaction.addToBackStack("prev.fragment")
         fmTransaction.commit()
     }
 }

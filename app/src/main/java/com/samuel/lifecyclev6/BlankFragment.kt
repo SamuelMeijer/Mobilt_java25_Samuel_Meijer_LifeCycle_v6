@@ -55,7 +55,8 @@ class BlankFragment : Fragment() {
         /*
         DONE:
         Weight: TextInputEditText
-        Height: TextInputEditText => SHOW BMI
+        Height: TextInputEditText
+        => SHOW BMI
 
         TODO:
         Date of Birth: DatePickerDialog
