@@ -1,6 +1,7 @@
 package com.samuel.lifecyclev6
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -10,11 +11,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.CalendarView
+import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.ToggleButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,13 +70,15 @@ class BlankFragment : Fragment() {
         => SHOW BMI
 
         Gender: RadioGroup
+        Right handed: Toggle
+        Favorite snack: Spinner
 
         WIP:
-        Right handed: Toggle
+        Date of Birth: DatePickerDialog ? => Textinput med date FUNKAR INTE SOM JAG VILL
 
         TODO:
-        Date of Birth: DatePickerDialog
-        Email: Email
+        Button: Store data
+
 
          */
 
@@ -110,9 +119,29 @@ class BlankFragment : Fragment() {
         // BMI END
 
         // DATE OF BIRTH START
+        /* TODO: Decide which version to use
+        val dobTextInputLayout = view.findViewById<TextInputLayout>(R.id.dobTextInputLayout)
+        val dobTextInput = view.findViewById<EditText>(R.id.dobTextInput)
 
+        dobTextInput.setOnClickListener {
+            DatePickerDialog(
+                requireContext(),
+                { _, year, month, day ->
+                    dobTextInput.setText("%02d/%02d/%04d".format(month + 1, day, year))
+                },
+                2026,
+                0,
+                1
+            ).show()
+        }
+         */
         // TODO: STORE DATA
         // DATE OF BIRTH END
+
+        // DATE OF BIRTH V2 START
+        val dobView = view.findViewById<CalendarView>(R.id.dobView)
+        // dobView.setOnClickListener {  }
+        // DATE OF BIRTH V2 END
 
         // GENDER START
         val genderGroup = view.findViewById<RadioGroup>(R.id.genderGroup)
@@ -143,6 +172,38 @@ class BlankFragment : Fragment() {
             // TODO: STORE DATA
         }
         // RIGHT HANDED END
+
+        // FAVORITE SNACK START
+        val snackSpinner = view.findViewById<Spinner>(R.id.snackSpinner)
+        val snackArr = arrayOf("Candy", "Ice Cream", "Chips", "Fruits", "Nuts")
+        val arrAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            snackArr
+        )
+        arrAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        snackSpinner.adapter = arrAdapter
+
+        var selectedSnack: String? = null;
+        snackSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedSnack = snackArr[position]
+
+                Log.i("SNACK", "onItemSelected: $selectedSnack")
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                selectedSnack = null
+            }
+        }
+
+        // TODO: STORE selectedSnack WHEN STORING DATA
+        // FAVORITE SNACK END
     }
 
     private fun calculateBmi() {
