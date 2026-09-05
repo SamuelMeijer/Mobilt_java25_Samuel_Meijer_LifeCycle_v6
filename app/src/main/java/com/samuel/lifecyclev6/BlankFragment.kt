@@ -119,29 +119,24 @@ class BlankFragment : Fragment() {
         // BMI END
 
         // DATE OF BIRTH START
-        /* TODO: Decide which version to use
-        val dobTextInputLayout = view.findViewById<TextInputLayout>(R.id.dobTextInputLayout)
         val dobTextInput = view.findViewById<EditText>(R.id.dobTextInput)
 
         dobTextInput.setOnClickListener {
-            DatePickerDialog(
+            val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, year, month, day ->
-                    dobTextInput.setText("%02d/%02d/%04d".format(month + 1, day, year))
+                    dobTextInput.setText("%02d/%02d/%04d".format( day, month + 1, year))
                 },
                 2026,
                 0,
                 1
-            ).show()
+            )
+            datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+            datePickerDialog.show()
         }
-         */
+
         // TODO: STORE DATA
         // DATE OF BIRTH END
-
-        // DATE OF BIRTH V2 START
-        val dobView = view.findViewById<CalendarView>(R.id.dobView)
-        // dobView.setOnClickListener {  }
-        // DATE OF BIRTH V2 END
 
         // GENDER START
         val genderGroup = view.findViewById<RadioGroup>(R.id.genderGroup)

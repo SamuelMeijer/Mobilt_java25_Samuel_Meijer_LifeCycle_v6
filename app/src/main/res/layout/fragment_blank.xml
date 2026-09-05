@@ -55,18 +55,28 @@
                 android:id="@+id/dobText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25sp"
+                android:layout_marginTop="40sp"
                 android:text="Date of birth" />
 
-            <CalendarView
-                android:id="@+id/dobView"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dobTextInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:hint="Date of birth">
+
+                <EditText
+                    android:id="@+id/dobTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:ems="10"
+                    android:inputType="date" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/genderText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="40sp"
                 android:text="Gender" />
 
             <RadioGroup
@@ -93,7 +103,7 @@
                 android:id="@+id/rightHandedText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
+                android:layout_marginTop="40sp"
                 android:text="Are you right handed?" />
 
             <ToggleButton
@@ -105,31 +115,25 @@
                 android:textOn="YES"
                 android:textSize="16sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/dobTextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Date of birth">
-
-                <EditText
-                    android:id="@+id/dobTextInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="65dp"
-                    android:ems="10"
-                    android:inputType="date" />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <TextView
                 android:id="@+id/snackText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
+                android:layout_marginTop="40sp"
                 android:text="What's your favorite snack" />
 
             <Spinner
                 android:id="@+id/snackSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
+
+            <Button
+                android:id="@+id/submitBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="60sp"
+                android:layout_marginTop="40sp"
+                android:text="Submit" />
 
         </LinearLayout>
     </ScrollView>
