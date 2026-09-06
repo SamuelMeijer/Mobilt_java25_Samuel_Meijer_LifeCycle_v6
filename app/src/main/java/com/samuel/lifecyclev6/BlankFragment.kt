@@ -2,6 +2,7 @@ package com.samuel.lifecyclev6
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.RadioButton
@@ -72,16 +74,13 @@ class BlankFragment : Fragment() {
         Gender: RadioGroup
         Right handed: Toggle
         Favorite snack: Spinner
-
-        WIP:
-        Date of Birth: DatePickerDialog ? => Textinput med date FUNKAR INTE SOM JAG VILL
-
-        TODO:
+        Date of Birth: DatePickerDialog
         Button: Store data
-
-
          */
 
+        // sharedPref START
+        val sharedPref = requireContext().getSharedPreferences("form_prefs", Context.MODE_PRIVATE)
+        // sharedPref END
 
         // BMI START
         heightText = view.findViewById<TextInputEditText>(R.id.heightInputText)
@@ -115,7 +114,6 @@ class BlankFragment : Fragment() {
 
         heightText.addTextChangedListener(textWatcher)
         weightText.addTextChangedListener(textWatcher)
-        // TODO: STORE DATA
         // BMI END
 
         // DATE OF BIRTH START
@@ -134,18 +132,15 @@ class BlankFragment : Fragment() {
             datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
             datePickerDialog.show()
         }
-
-        // TODO: STORE DATA
         // DATE OF BIRTH END
 
         // GENDER START
         val genderGroup = view.findViewById<RadioGroup>(R.id.genderGroup)
         genderGroup.setOnCheckedChangeListener { genderGroup, checkedId ->
             var selectedGender = view.findViewById<RadioButton>(checkedId).text
-            // TODO: STORE DATA // REMOVE LOG
+            // TODO: Store data here instead? Currently doing it in submitBtn
             Log.i("GENDER", "text: $selectedGender")
         }
-        // TODO: Check for null-value before storing data with save button
         // GENDER END
 
         // RIGHT HANDED START
@@ -164,7 +159,6 @@ class BlankFragment : Fragment() {
             } else {
                 button.setBackgroundColor(Color.argb(100,244,67,54))
             }
-            // TODO: STORE DATA
         }
         // RIGHT HANDED END
 
@@ -196,9 +190,48 @@ class BlankFragment : Fragment() {
                 selectedSnack = null
             }
         }
-
-        // TODO: STORE selectedSnack WHEN STORING DATA
         // FAVORITE SNACK END
+
+        // SUBMIT BUTTON START
+        var submitBtn = view.findViewById<Button>(R.id.submitBtn)
+
+        submitBtn.setOnClickListener {
+            // Validating so all required data has ben input by the user
+            if (heightText.text.toString().trim().isEmpty()
+                || weightText.text.toString().trim().isEmpty()
+                || bmiText.text.toString().trim().isEmpty()
+                || dobTextInput.text.toString().trim().isEmpty()
+                || genderGroup.checkedRadioButtonId == -1
+            ) {
+                submitBtn.error = "All fields are required"
+
+                return@setOnClickListener
+            } else {
+                submitBtn.error = null
+                // STORING DATA
+                val selectedGender =
+                    genderGroup.findViewById<RadioButton>(genderGroup.checkedRadioButtonId).text.toString()
+
+                val selectedSnack = snackSpinner.selectedItem.toString()
+                val isRightHanded = rightHandedBtn.isChecked
+
+                with(sharedPref.edit()) {
+                    putString("height", heightText.text.toString().trim())
+                    putString("weight", weightText.text.toString().trim())
+                    putString("bmi", bmiText.text.toString().trim())
+                    putString("dob", dobTextInput.text.toString().trim())
+                    putString("gender", selectedGender)
+                    putString("favoriteSnack", selectedSnack)
+                    putBoolean("rightHanded", isRightHanded)
+                    apply()
+                }
+            }
+        }
+        // SUBMIT BUTTON END
+
+        // sharedPref DEFAULT POPULATE START
+        // TODO: Restore data from sharedPref
+        // sharedPref DEFAULT POPULATE END
     }
 
     private fun calculateBmi() {
@@ -206,11 +239,11 @@ class BlankFragment : Fragment() {
         val kg = weightText.text.toString().trim().toDoubleOrNull()
 
         var numbOfErrors = 0;
-        if (cm == null || cm < 0) {
+        if (cm == null || cm <= 0) {
             heightText.error = "Height needs to be greater than 0"
             numbOfErrors++
         }
-        if (kg == null || kg < 0) {
+        if (kg == null || kg <= 0) {
             weightText.error = "Weight needs to be greater than 0"
             numbOfErrors++
         }

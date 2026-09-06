@@ -16,17 +16,13 @@ class MainActivity2 : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main2)
 
-        // TODO: Might remove, testing to see that it works as intended.
-        var username = intent.getStringExtra("username");
+        val username = intent.getStringExtra("username");
         Log.i("SAM", "A2-username: $username")
-        var password = intent.getStringExtra("password");
-        Log.i("SAM", "A2-password: $password")
-
         val titleText = findViewById<TextView>(R.id.titleText);
         titleText.text = "Welcome $username";
 
 
-        // NAVIGATION -- TODO: Add icons for menu-items
+        // NAVIGATION
         val navBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView);
         navBar.setOnItemSelectedListener { item ->
             if (item.itemId == R.id.menu_form_fragment) {
