@@ -64,20 +64,6 @@ class BlankFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO: Add components for user input
-        /*
-        DONE:
-        Weight: TextInputEditText
-        Height: TextInputEditText
-        => SHOW BMI
-
-        Gender: RadioGroup
-        Right handed: Toggle
-        Favorite snack: Spinner
-        Date of Birth: DatePickerDialog
-        Button: Store data
-         */
-
         // sharedPref START
         val sharedPref = requireContext().getSharedPreferences("form_prefs", Context.MODE_PRIVATE)
         // sharedPref END
@@ -145,7 +131,6 @@ class BlankFragment : Fragment() {
 
         // RIGHT HANDED START
         val rightHandedBtn = view.findViewById<ToggleButton>(R.id.rightHandedButton)
-        // TODO: Add default value from storage
 
         if (rightHandedBtn.isChecked) {
             rightHandedBtn.setBackgroundColor(Color.argb(100,76,175,80))
@@ -182,8 +167,8 @@ class BlankFragment : Fragment() {
                 id: Long
             ) {
                 selectedSnack = snackArr[position]
-
                 Log.i("SNACK", "onItemSelected: $selectedSnack")
+                // TODO: Store data here instead? Currently doing it in submitBtn
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -193,13 +178,12 @@ class BlankFragment : Fragment() {
         // FAVORITE SNACK END
 
         // SUBMIT BUTTON START
-        var submitBtn = view.findViewById<Button>(R.id.submitBtn)
+        val submitBtn = view.findViewById<Button>(R.id.submitBtn)
 
         submitBtn.setOnClickListener {
             // Validating so all required data has ben input by the user
             if (heightText.text.toString().trim().isEmpty()
                 || weightText.text.toString().trim().isEmpty()
-                || bmiText.text.toString().trim().isEmpty()
                 || dobTextInput.text.toString().trim().isEmpty()
                 || genderGroup.checkedRadioButtonId == -1
             ) {
@@ -211,14 +195,12 @@ class BlankFragment : Fragment() {
                 // STORING DATA
                 val selectedGender =
                     genderGroup.findViewById<RadioButton>(genderGroup.checkedRadioButtonId).text.toString()
-
                 val selectedSnack = snackSpinner.selectedItem.toString()
                 val isRightHanded = rightHandedBtn.isChecked
 
                 with(sharedPref.edit()) {
                     putString("height", heightText.text.toString().trim())
                     putString("weight", weightText.text.toString().trim())
-                    putString("bmi", bmiText.text.toString().trim())
                     putString("dob", dobTextInput.text.toString().trim())
                     putString("gender", selectedGender)
                     putString("favoriteSnack", selectedSnack)
@@ -229,8 +211,28 @@ class BlankFragment : Fragment() {
         }
         // SUBMIT BUTTON END
 
-        // sharedPref DEFAULT POPULATE START
-        // TODO: Restore data from sharedPref
+        // sharedPref DEFAULT POPULATE START -- Restoring saved data from sharedPref
+        // BMI
+        heightText.setText(sharedPref.getString("height", ""))
+        weightText.setText(sharedPref.getString("weight", ""))
+        calculateBmi()
+        // DATE OF BIRTH
+        dobTextInput.setText(sharedPref.getString("dob", ""))
+        // FAVORITE SNACK
+        snackSpinner.setSelection(snackArr.indexOf(sharedPref.getString("favoriteSnack", "Candy")))
+        // USER IS RIGHT HANDED
+        rightHandedBtn.isChecked = sharedPref.getBoolean("rightHanded", false)
+        if (rightHandedBtn.isChecked) {
+            rightHandedBtn.setBackgroundColor(Color.argb(100,76,175,80))
+        }
+        // GENDER
+        for (i in 0 until genderGroup.childCount) {
+            val radioButton = genderGroup.getChildAt(i) as? RadioButton
+            if (radioButton!!.text?.toString() == sharedPref.getString("gender", "")) {
+                radioButton.isChecked = true
+                break
+            }
+        }
         // sharedPref DEFAULT POPULATE END
     }
 
@@ -249,6 +251,9 @@ class BlankFragment : Fragment() {
         }
 
         if (numbOfErrors == 0) {
+            heightText.error = null
+            weightText.error = null
+
             val m = cm?.div(100)
             val bmi = kg?.div((m!!.times(m)))
 
